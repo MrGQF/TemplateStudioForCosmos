@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Cosmos>
+  <!-- app元数据 -->
+  <App>
+    <Version>1.0.0.0</Version>
+    <Base>
+      <Guid>$(ProjectGuid)</Guid>
+      <Name>
+        <zh-CN>Param_RootNamespace</zh-CN>
+        <en-US>Param_RootNamespace</en-US>
+      </Name>
+      <Description>
+        <zh-CN>Param_RootNamespace</zh-CN>
+        <en-US>Param_RootNamespace</en-US>
+      </Description>
+    </Base>
+    <!-- widget元数据集 -->
+    <Widgets>
+      <Widget>
+        <Base>
+          <Guid>$(ProjectGuid)</Guid>
+          <Name>
+            <zh-CN>Param_RootNamespace</zh-CN>
+            <en-US>Param_RootNamespace</en-US>
+          </Name>
+          <Description>
+            <zh-CN>Param_RootNamespace</zh-CN>
+            <en-US>Param_RootNamespace</en-US>
+          </Description>
+        </Base>
+        <LibraryFile>Param_RootNamespace.dll</LibraryFile>
+        <RuntimeType>ts.ProjectName.Shared.ContentGui</RuntimeType>
+        <GuiFrameworks>avalonia</GuiFrameworks>
+      </Widget>
+    </Widgets>
+  </App>
+</Cosmos>
+

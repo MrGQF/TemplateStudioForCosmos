@@ -1,0 +1,20 @@
+﻿[
+    {
+        "name": "Web",
+        "displayName": "Web",
+        "summary": "This option allows you to run your project on Web using Web Assembly.",
+        "author": "CosmosTeam",
+        "order": "1",
+        "platform": "Avalonia",
+        "languages": [ "C#" ]
+    },
+    {
+        "name": "Desktop",
+        "displayName": "Desktop",
+        "summary": "This option allows you to run your project on Windows, OSX, Linux.",
+        "author": "CosmosTeam",
+        "order": "2",
+        "platform": "Avalonia",
+        "languages": [ "C#" ]
+    }
+]

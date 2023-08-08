@@ -1,0 +1,227 @@
+﻿<Window
+    x:Class="Microsoft.Templates.VsEmulator.Main.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Microsoft.Templates.VsEmulator.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Visual Studio Emulator"
+    Width="1400"
+    Height="750"
+    KeyDown="OnKeyDown"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Margin="12,12,12,12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="2">
+                        <TextBlock
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Text="Avalonia" />
+                        <TextBlock Margin="0,6,0,0">
+                            <Hyperlink Command="{Binding NewProjectCommand}" CommandParameter="Avalonia,C#">
+                                <TextBlock FontSize="14" Text="New project C#" />
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="0,12,0,0">
+                            <Hyperlink Command="{Binding NewProjectCommand}" CommandParameter="Avalonia,F#">
+                                <TextBlock FontSize="14" Text="New project F#" />
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="0,12,0,0">
+                            <Hyperlink Command="{Binding AnalyzeSelectionCommand}" CommandParameter="Avalonia,C#">
+                                <TextBlock FontSize="14" Text="Analyze C#" />
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="0,12,0,0">
+                            <Hyperlink Command="{Binding LoadProjectCommand}">
+                                <TextBlock FontSize="14" Text="Load project..." />
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="0,12,0,0">
+                            <Hyperlink Command="{Binding RecreateWpfProjectCommand}">
+                                <TextBlock FontSize="14" Text="Re-create last user selection" />
+                            </Hyperlink>
+                        </TextBlock>
+                    </StackPanel>
+                    <StackPanel Grid.Column="4">
+                        <TextBlock
+                            FontSize="12"
+                            FontWeight="Bold"
+                            Text="Generation options" />
+                        <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+                            <CheckBox VerticalAlignment="Center" IsChecked="{Binding UseStyleCop, Mode=TwoWay}" />
+                            <TextBlock
+                                Margin="6,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="With style checks" />
+                            <Image
+                                Width="20"
+                                Margin="3,0,0,0"
+                                VerticalAlignment="Center"
+                                Source="/VsEmulator;component/Assets/stylecop.png" />
+                        </StackPanel>
+                        <TextBlock
+                            Margin="0,12,0,0"
+                            FontSize="12"
+                            FontWeight="Bold"
+                            Text="Theme" />
+                        <ComboBox
+                            Margin="0,6,0,0"
+                            ItemsSource="{Binding Themes}"
+                            SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"
+                            Style="{StaticResource VSEmulatorComboBox}" />
+                        <!--<TextBlock Text="Version" FontWeight="Bold" FontSize="12" Margin="0,16,0,0" />
+                        <TextBlock Margin="0,6,0,0">
+                            <Hyperlink Command="{Binding ConfigureVersionsCommand}">
+                                <TextBlock Text="Configure versions..."/>
+                            </Hyperlink>
+                        </TextBlock>
+                        <Button Command="{Binding RefreshTemplateCacheCommand}" Content="Refresh Cache" Style="{StaticResource TextButton}" Margin="0,8,0,0" ToolTip="Refresh template cache" />
+                        <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0,12,0,0">
+                            <TextBlock Text="Wizard Version:" />
+                            <TextBlock Text="{Binding WizardVersion}" Margin="6,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0,6,0,0">
+                            <TextBlock Text="Templates Version:" />
+                            <TextBlock Text="{Binding TemplatesVersion}" Margin="6,0,0,0" />
+                        </StackPanel>-->
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="1" Style="{StaticResource HorizontalSeparator}" />
+                <ScrollViewer
+                    Grid.Row="2"
+                    Margin="0,8"
+                    Padding="12,0">
+                    <TextBlock Text="{Binding Log}" TextWrapping="Wrap" />
+                </ScrollViewer>
+            </Grid>
+            <Grid Grid.Column="1" Style="{StaticResource VerticalSeparator}" />
+            <ScrollViewer Grid.Column="2">
+                <ItemsControl Margin="18,12,0,12" ItemsSource="{Binding Projects}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="0,0,0,24">
+                                <TextBlock Style="{StaticResource Header2}" Text="{Binding ProjectName}" />
+                                <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource Label1}" Text="Platform: " />
+                                    <TextBlock Style="{StaticResource Label1}" Text="{Binding Platform}" />
+                                </StackPanel>
+                                <StackPanel
+                                    Margin="0,6,0,0"
+                                    Orientation="Horizontal"
+                                    Visibility="{Binding AppModel, Converter={StaticResource StringToVisibilityConverter}}">
+                                    <TextBlock Style="{StaticResource Label1}" Text="App Model: " />
+                                    <TextBlock Style="{StaticResource Label1}" Text="{Binding AppModel}" />
+                                </StackPanel>
+                                <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource Label1}" Text="Language: " />
+                                    <TextBlock Style="{StaticResource Label1}" Text="{Binding Language}" />
+                                </StackPanel>
+                                <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource Label1}" Text="Project Type: " />
+                                    <TextBlock Style="{StaticResource Label1}" Text="{Binding ProjectType}" />
+                                </StackPanel>
+                                <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource Label1}" Text="Framework: " />
+                                    <TextBlock Style="{StaticResource Label1}" Text="{Binding Framework}" />
+                                </StackPanel>
+                                <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource Label1}" Text="Time: " />
+                                    <TextBlock Style="{StaticResource Label1}" Text="{Binding Time}" />
+                                </StackPanel>
+                                <TextBlock
+                                    Margin="0,4,0,0"
+                                    Style="{StaticResource Label1}"
+                                    Text="Generated with style checks"
+                                    Visibility="{Binding UseStyleCop, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                                <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+                                    <Button Command="{Binding OpenInVsCommand}" Style="{StaticResource IconButton}">
+                                        <Button.ToolTip>Open in Visual Studio</Button.ToolTip>
+                                        <Image Source="/VsEmulator;component/Assets/vs.jpg" />
+                                    </Button>
+                                    <Button Command="{Binding OpenInVsCodeCommand}" Style="{StaticResource IconButton}">
+                                        <Button.ToolTip>Open in Visual Studio Code</Button.ToolTip>
+                                        <Image Source="/VsEmulator;component/Assets/vscode.jpg" />
+                                    </Button>
+                                    <Button Command="{Binding OpenInExplorerCommand}" Style="{StaticResource IconButton}">
+                                        <Button.ToolTip>Open in folder</Button.ToolTip>
+                                        <Image Source="/VsEmulator;component/Assets/folder.png" />
+                                    </Button>
+                                    <Button
+                                        Command="{Binding AddNewPageCommand}"
+                                        Style="{StaticResource IconButton}"
+                                        Visibility="{Binding IsAddNewPageCommandVisible}">
+                                        <Button.ToolTip>Add new page</Button.ToolTip>
+                                        <Image Source="/VsEmulator;component/Assets/newpage.png" />
+                                    </Button>
+                                    <Button
+                                        Command="{Binding AddNewFeatureCommand}"
+                                        Style="{StaticResource IconButton}"
+                                        Visibility="{Binding IsAddNewFeatureCommandVisible}">
+                                        <Button.ToolTip>Add new feature</Button.ToolTip>
+                                        <Image Source="/VsEmulator;component/Assets/newfeature.png" />
+                                    </Button>
+                                    <Button
+                                        Command="{Binding AddNewServiceCommand}"
+                                        Style="{StaticResource IconButton}"
+                                        Visibility="{Binding IsAddNewServiceCommandVisible}">
+                                        <Button.ToolTip>Add new service</Button.ToolTip>
+                                        <Image Source="/VsEmulator;component/Assets/newservice.png" />
+                                    </Button>
+                                    <Button
+                                        Command="{Binding AddNewTestingCommand}"
+                                        Style="{StaticResource IconButton}"
+                                        Visibility="{Binding IsAddNewTestingCommandVisible}">
+                                        <Button.ToolTip>Add new testing</Button.ToolTip>
+                                        <Image Source="/VsEmulator;component/Assets/newtesting.png" />
+                                    </Button>
+                                    <Button
+                                        Command="{Binding OpenTempInExplorerCommand}"
+                                        Style="{StaticResource IconButton}"
+                                        Visibility="{Binding TempFolderAvailable}">
+                                        <Button.ToolTip>Open temp folder in explorer</Button.ToolTip>
+                                        <Image Source="/VsEmulator;component/Assets/openfolder.png" />
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+        <Grid Grid.Row="1" Style="{StaticResource StatusContainer}">
+            <TextBlock Style="{StaticResource StatusText}" Text="{Binding State}" />
+        </Grid>
+    </Grid>
+</Window>
